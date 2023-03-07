@@ -14,9 +14,15 @@ import { Base } from "./components/Base/Base";
 import { Model } from "./components/Model/Model";
 
 function App() {
+  const [enableOrbitControls, setEnableOrbitControls] = useState(false);
   const controlsRef = useRef();
   const cameraRef = useRef();
   useEffect(() => {
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "q") {
+        setEnableOrbitControls((prev) => !prev);
+      }
+    });
     if (controlsRef.current) {
       controlsRef.current.listenToKeyEvents(window);
       controlsRef.current.keys = {
@@ -24,11 +30,6 @@ function App() {
         UP: "KeyW",
         RIGHT: "KeyD",
         BOTTOM: "KeyS",
-      };
-      controlsRef.current.mouseButtons = {
-        LEFT: THREE.MOUSE.PAN,
-        MIDDLE: THREE.MOUSE.DOLLY,
-        RIGHT: THREE.MOUSE.ROTATE,
       };
       controlsRef.current.keyPanSpeed = 30;
       console.log(controlsRef.current);
@@ -40,11 +41,15 @@ function App() {
         <ambientLight />
         <pointLight position={[10, 10, 10]} castShadow />
         <PerspectiveCamera
-          position={[10, 10, 10]}
-          rotation={[-Math.PI / 4, 0, 0]}
+          position={[0, 10, 10]}
+          rotation={[0, -Math.PI / 4, 0]}
           makeDefault
         />
-        <MapControls ref={controlsRef} />
+        {enableOrbitControls ? (
+          <OrbitControls makeDefault />
+        ) : (
+          <MapControls ref={controlsRef} />
+        )}
         <Suspense>
           <Base />
           <Model src="./Armaud.stl" position={[0, 0, 0]} />
