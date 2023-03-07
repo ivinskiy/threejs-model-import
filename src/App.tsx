@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import reactLogo from "./assets/react.svg";
+import * as THREE from "three";
 import { GameContainer } from "./App.styles";
 import { Canvas } from "@react-three/fiber";
 import {
@@ -16,9 +17,7 @@ function App() {
   const controlsRef = useRef();
   const cameraRef = useRef();
   useEffect(() => {
-    console.log(controlsRef.current);
     if (controlsRef.current) {
-      console.log(cameraRef);
       controlsRef.current.listenToKeyEvents(window);
       controlsRef.current.keys = {
         LEFT: "KeyA",
@@ -26,30 +25,26 @@ function App() {
         RIGHT: "KeyD",
         BOTTOM: "KeyS",
       };
+      controlsRef.current.mouseButtons = {
+        LEFT: THREE.MOUSE.PAN,
+        MIDDLE: THREE.MOUSE.DOLLY,
+        RIGHT: THREE.MOUSE.ROTATE,
+      };
       controlsRef.current.keyPanSpeed = 30;
       console.log(controlsRef.current);
-      window.addEventListener("keydown", (event) => {
-        if (event.key === "q") {
-          const x = cameraRef.current.rotation.x;
-          const y = cameraRef.current.rotation.y + 0.01;
-          const z = cameraRef.current.rotation.z;
-          cameraRef.current.rotation.set({ x, y, z });
-        }
-      });
     }
   }, [controlsRef]);
   return (
     <GameContainer>
-      <Canvas shadows>
+      <Canvas shadows orthographic>
         <ambientLight />
         <pointLight position={[10, 10, 10]} castShadow />
         <PerspectiveCamera
-          ref={cameraRef}
           position={[10, 10, 10]}
           rotation={[-Math.PI / 4, 0, 0]}
           makeDefault
         />
-        <MapControls ref={controlsRef} enableRotate />
+        <MapControls ref={controlsRef} />
         <Suspense>
           <Base />
           <Model src="./Armaud.stl" position={[0, 0, 0]} />
