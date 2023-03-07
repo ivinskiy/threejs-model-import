@@ -52,7 +52,7 @@ function App() {
         )}
         <Suspense>
           <Base />
-          <Model src="./Armaud.stl" position={[0, 0, 0]} />
+          <Model src="./Armaud.stl" position={[15, 0, -25]} />
         </Suspense>
       </Canvas>
     </GameContainer>
