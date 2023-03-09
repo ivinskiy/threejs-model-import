@@ -12,6 +12,7 @@ import {
 } from "@react-three/drei";
 import { Base } from "./components/Base/Base";
 import { Model } from "./components/Model/Model";
+import { Marker } from "./components/Marker/Marker";
 
 function App() {
   const [enableOrbitControls, setEnableOrbitControls] = useState(false);
@@ -40,6 +41,8 @@ function App() {
       <Canvas shadows orthographic>
         <ambientLight />
         <pointLight position={[10, 10, 10]} castShadow />
+        {/* <pointLight position={[17.5, 10, -7]} castShadow /> */}
+
         <PerspectiveCamera
           position={[0, 10, 10]}
           rotation={[0, -Math.PI / 4, 0]}
@@ -52,7 +55,8 @@ function App() {
         )}
         <Suspense>
           <Base />
-          <Model src="./Armaud.stl" position={[15, 0, -25]} />
+          <Marker position={[17.5, 0, -8.5]} />
+          <Model src="./Armaud.stl" position={[0, 0, 0]} />
         </Suspense>
       </Canvas>
     </GameContainer>

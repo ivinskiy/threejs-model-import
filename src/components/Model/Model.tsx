@@ -18,7 +18,7 @@ export const Model = ({
   console.log(gltf);
 
   return (
-    <mesh scale={[0.05, 0.05, 0.05]} position={position} castShadow>
+    <mesh scale={[0.03, 0.03, 0.03]} position={position} castShadow>
       <primitive object={gltf.nodes["Armaud"]} />;
     </mesh>
   );
